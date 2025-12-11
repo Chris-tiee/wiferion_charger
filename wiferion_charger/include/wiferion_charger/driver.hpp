@@ -520,7 +520,7 @@ public:
     DisableCharging(): Frame() {}
     Values getValues();
     std::array<uint8_t, WIFERION_CAN_DATA_LENGTH> getMessageData(bool disable_charging);
-    uint32_t getMessageID();
+    uint32_t getMessageID(int charger_id);
   };
 
   WiferionCharger();
