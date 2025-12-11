@@ -47,18 +47,18 @@ WiferionNode::WiferionNode(const std::string node_name)
 
   // Publishers
   pubStatus_ = this->create_publisher<wiferion_interfaces::msg::Status>(
-    "~/status" + std::to_string(charger_id_), 10);
+    "~/status_" + std::to_string(charger_id_), 10);
   pubError_ = this->create_publisher<wiferion_interfaces::msg::Error>(
-    "~/error" + std::to_string(charger_id_), 10);
+    "~/error_" + std::to_string(charger_id_), 10);
   pubState_ = this->create_publisher<wiferion_interfaces::msg::MobileState>(
-    "~/mobile_state" + std::to_string(charger_id_), 10);
+    "~/mobile_state_" + std::to_string(charger_id_), 10);
   pubStatState_ =
     this->create_publisher<wiferion_interfaces::msg::StationaryState>(
-      "~/stationary_state" + std::to_string(charger_id_), 10);
+      "~/stationary_state_" + std::to_string(charger_id_), 10);
 
   // Subscribers
   subDisable_ = this->create_subscription<std_msgs::msg::Bool>(
-                  "~/disable_charging" + std::to_string(charger_id_),
+                  "~/disable_charging_" + std::to_string(charger_id_),
                   10,
                   std::bind(&WiferionNode::subDisableCallback, this, std::placeholders::_1));
 
@@ -199,7 +199,7 @@ void WiferionNode::subDisableCallback(const std_msgs::msg::Bool::SharedPtr msg)
   can_msgs::msg::Frame can_msg;
   can_msg.header.frame_id = "can";
   can_msg.is_extended = true;
-  can_msg.id = wiferion_.disable_charging_.getMessageID();
+  can_msg.id = wiferion_.disable_charging_.getMessageID(charger_id_);
   can_msg.data = wiferion_.disable_charging_.getMessageData(msg->data);
   can_msg.dlc = sizeof(can_msg.data);
   interface_->queue(can_msg);
