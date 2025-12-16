@@ -440,8 +440,10 @@ WiferionCharger::DisableCharging::getMessageData(bool disable_charging)
 
 uint32_t WiferionCharger::DisableCharging::getMessageID(int charger_id)
 {
-  uint32_t id_offset = (static_cast<uint32_t>(charger_id) & 0x0F) << 8; //0xXX00
-  return WIFERION_MOB_ID | id_offset;
+  uint32_t id_offset = (static_cast<uint32_t>(charger_id) & 0x0F); //0x000F
+  // Return the message ID for disabling charging
+  // The message ID is the base ID plus the offset for the charger ID
+  return WIFERION_BMS_DISABLE_CHARGING + id_offset;
 }
 
 }  // namespace wiferion_charger
